@@ -5,6 +5,10 @@ from random import randint
 # Create your views here.
 
 def index(request):
+    def set_var():
+        settings.GAME_CONFIG['current_position'] = 0
+
+    set_var()
     if request.method == 'POST':
         r = request.POST['action']
         if r: 
@@ -14,6 +18,7 @@ def index(request):
     return render(request, 'game/index.html')
 
 def worldmap(request):
+    scale = ''
     action = ['haut', 'bas', 'droite', 'gauche']
     print(settings.GAME_CONFIG['current_position'])
     size = settings.GAME_CONFIG['size']
@@ -21,23 +26,23 @@ def worldmap(request):
     if request.method == 'POST' and any(x == request.POST['action'] for x in action):
         move = request.POST['action']
         if move == 'haut':
-          
-            print('moving up')
             pos = pos - size if (pos - size) // size  >= 0 else pos
+            scale = "rotate(90deg)"
         elif move == 'bas':
-            print('moving bas')
             pos = pos + size if (pos + size) // size < size else pos
+            scale = "rotate(-90deg)"
         elif move == 'droite':
-            print('moving droite')
             pos = pos + 1 if (pos) % size < size - 1 else pos
+            scale = "ScaleX(-1)"
         elif move == 'gauche':
-            print('moving gauche')
             pos = pos - 1 if pos % size != 0  else pos
+            scale = "ScaleX(1)"
     content = {
         'size': range(size),
         'position' : pos,
         'x' : pos % size ,
         'y' : pos // size,
+        'scale' : scale,
     }
     settings.GAME_CONFIG['current_position'] = pos
     print("x ={}, y={}, pos={}".format(content['x'], content['y'], content['position']))

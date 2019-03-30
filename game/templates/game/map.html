@@ -8,7 +8,7 @@
 		<tr>
 			{% for cell in size %}
 				{% if row == y and x == cell  %}
-				<td class="cell"><img class="hero" src="https://data.whicdn.com/images/5288877/original.gif" alt="player" height="35" width="35"></td>
+				<td class="cell"><img style="transform:{{scale}};" class="hero" src="https://data.whicdn.com/images/5288877/original.gif" alt="player" height="35" width="35"></td>
 				{% else %}
 				<td class="cell"></td>
 				{% endif %}
