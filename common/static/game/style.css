@@ -1,7 +1,11 @@
-body {
-	background-color: white;
-}
-
+html,body{
+    height: 100%;
+    background: 
+    linear-gradient(
+      rgba(24%, 48%, 80%, 0.9),
+      rgba(24%, 48%, 80%, 0.9)
+    ), url("http://wallpapercave.com/wp/ZqCwNUM.jpg");
+  }
 
 .outer-div
 {
@@ -30,7 +34,7 @@ div{
 	background-color: #BEAE5D;
 	width: 700px;
 	height: 700px;
-	box-shadow: inset 3px 3px rgba(0,0,0,0.15);
+	box-shadow: inset 3px 3px rgba(102, 38, 38, 0.15);
 	display: flex;
 	justify-content: center;
 	align-items: center;
