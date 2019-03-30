@@ -38,7 +38,6 @@ def worldmap(request):
         'position' : pos,
         'x' : pos % size ,
         'y' : pos // size,
-    
     }
     settings.GAME_CONFIG['current_position'] = pos
     print("x ={}, y={}, pos={}".format(content['x'], content['y'], content['position']))

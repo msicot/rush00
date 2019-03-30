@@ -17,38 +17,6 @@
 					</div>
 				<form method='POST'>
 					{% csrf_token %}
-				<!-- <table >
-					<tr>
-						<div>
-							<table id='corentin'>
-								<tr>
-									<td class="croix"> </td>
-									<td class="croix"><button class="dir hauteur" type="submit" name='action' value='haut'></button> </td>
-									<td class="croix"> </td>
-								</tr>
-								<tr>
-									<td class="croix"><button class="dir cote" type="submit" name='action' value='gauche'></button> </td>
-									<td class="croix"> </td>
-									<td class="croix"><button class="dir cote" type="submit" name='action' value='droite'></button> </td>
-									<td class="croix" style="width:300px" > </td>
-									<td>
-										<button class="btn" type='submit' name='action' value='A' href="{% url 'worldmap'%}">A</button>
-										<button class="btn" type='submit' name='action' value='B'>B</button>
-									</td>
-									<td>
-										<button class="btn2" type='submit' name='action' value='start'>start</button>
-										<button class="btn2" type='submit' name='action' value='select'>select</button>
-									</td>
-								</tr>
-								<tr>
-									<td class="croix"> </td>
-									<td class="croix"><button class="dir hauteur" type="submit" name='action' value='bas'></button> </td>
-									<td class="croix"> </td>
-								</tr>
-							</table>
-						</div>
-					</tr>
-				</table> -->
 				<div class="controllers">
 
 					<div class="cross">
@@ -61,7 +29,7 @@
 							<button type="submit" name='action' value='gauche'>
 								<span class="arrow arrow-left"></span>
 							</button>
-							<button id="middle"><span class="round"></span></button>
+							<button type="button" value="" id="middle"><span class="round"></span></button>
 							<button type="submit" name='action' value='droite'>
 								<span class="arrow arrow-right"></span>
 							</button>
