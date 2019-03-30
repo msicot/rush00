@@ -20,40 +20,162 @@ div{
 }
 .gb
 {
-	padding-top: 25px;
-	background-color: #e0e0e0;
+	padding-top: 30px;
+	background-color: #FEE125;
 	margin: auto;
-	width: 750px;
-	height: 900px; 
+	width: 950px;
+	height: 1500px;
 	border-radius:10px;
 	border:1px solid black;
+	border-bottom-left-radius: 100%120px;
+	border-bottom-right-radius: 100%120px;
+}
+
+.controllers {
+	display: flex;
+	width: 90%;
+	margin: auto;
+	height: 350px;
+	justify-content: space-between;
+	padding: 100px 70px 0px 70px;
+}
+
+.buttons_contener {
+	width: 230px;
+	display: flex;
+	justify-content: space-between
+}
+
+#b_button {
+	margin-top: 40px;
+}
+
+.screen_border {
+	width: 900px;
+	height: 900px;
+	padding: 20px 75px 120px 75px;
+	border-radius: 35px 35px 0px 0px;
+	border-bottom-left-radius: 100%100px;
+	border-bottom-right-radius: 100%100px;
+	background-color: black;
+	margin: auto;
+	display: flex;
+	justify-content: center;
 }
 
 .screen{
 	margin:auto;
-	background-color: #BEAE5D;
+	background-color: #5D686E;
 	width: 700px;
 	height: 700px;
 	box-shadow: inset 3px 3px rgba(102, 38, 38, 0.15);
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border-radius:10px;
+	border-radius:5px;
 	margin-bottom: 15px;
 }
 
+.arrow {
+	display: inline-block;
+	width: 0;
+	height: 0;
+}
+
+.arrow-up {
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-bottom: 30px solid #121212;
+}
+
+.arrow-right {
+	border-top: 15px solid transparent;
+	border-bottom: 15px solid transparent;
+	border-left: 30px solid #121212;
+}
+
+.arrow-left {
+	border-top: 15px solid transparent;
+	border-bottom: 15px solid transparent;
+	border-right: 30px solid #121212;
+}
+
+.arrow-down {
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-top: 30px solid #121212;
+}
+
+.round {
+	display: inline-block;
+	background-color: #121212;
+	width: 35px;
+	height: 35px;
+	border-radius: 100%;
+}
+
 .btn {
-	border-radius: 50%;
-	height:30px;
-	width:30px;
+	color: #121212;
+	cursor: pointer;
+	border-radius: 100%;
+	height:80px;
+	width:80px;
+	border: 1px solid black;
+	box-shadow: black;
+	font-size: 2em;
 	background-color: #323232;
+	box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 1);
+}
+
+.cross {
+	margin-top: -20px;
+}
+
+.cross div {
+	display: flex;
+}
+
+#middle {
+	cursor: default;
+}
+
+.cross button {
+	width: 65px;
+	cursor: pointer;
+	background-color: #323232;
+	height: 65px;
+	line-height: 0px;
+	border: none;
+	padding: 0;
+	margin: 0;
+	box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 1);
+}
+
+#haut, #bas {
+	margin-left: 65px;
+}
+
+.start_select_contener {
+	width: 180px;
+	margin: auto;
+}
+
+.start_select_contener div {
+	display: flex;
+	justify-content: space-around;
+	text-align: center;
 }
 
 .btn2{
-	border-radius: 20%
+	border-top-left-radius: 100%20px;
+	border-top-right-radius: 100%20px;
+	border-bottom-left-radius: 100%20px;
+	border-bottom-right-radius: 100%20px;
+	height: 20px;
+	width: 50px;
 }
 
-.croix{
+.croix {
 	height:15px;
 	width:15px;
 }

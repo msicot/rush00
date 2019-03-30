@@ -1,6 +1,7 @@
 {% extends 'game/base.html' %}
 {% load static %}
 		{% block screen %}
+		<div class="screen_border">
 			<div class="screen" style="background-image: url({% static 'img/map.png'%})">
 				<table class="map">
 					{% for i in size %}
@@ -15,4 +16,5 @@
 						</tr>
 					{% endfor %}
 				</table>
+			</div>
 		{% endblock %}
