@@ -1,0 +1,60 @@
+body {
+	background-color: black;
+}
+
+
+.outer-div
+{
+	padding: 30px;
+}
+
+.gb
+{
+	background-color: #e0e0e0;
+	margin: auto;
+	width: 750px;
+	height: 800px; 
+}
+
+.screen{
+	margin:auto;
+	background-color: #BEAE5D;
+	width: 700px;
+	height: 700px;
+	box-shadow: inset 3px 3px rgba(0,0,0,0.15);
+}
+
+.start_screen{
+	margin:auto;
+
+}
+.btn {
+	border-radius: 50%;
+	height:30px;
+	width:30px;
+	background-color: #323232;
+}
+
+.btn2{
+	border-radius: 20%
+}
+
+.croix{
+	height:15px;
+	width:15px;
+}
+
+.dir{
+	background-color:#323232;
+	height:15px;
+	width:15px;
+}
+.dir.hauteur{
+	height:30px;
+	width:20px;
+}
+
+.dir.cote{
+	height:20px;
+	width:30px;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang='en'>
+{% load static %}
+	<head>
+		<meta charset='utf-8'>
+			{% block style %}
+				<link rel="stylesheet" type="text/css" href="{% static 'game/style.css' %}">
+			{% endblock %}
+		<title>Moviemon</title>
+	</head>
+	<body>
+		<div class="outer-div">
+			<div class="gb">
+				{% block screen %}
+					<div class="screen">
+				{% endblock %}
+				<form method='post'>
+					{% csrf_token %}
+				<table>
+					<!-- CASE 1 -->
+					<tr>
+						<div>
+							<table>
+								<tr>
+									<td class="croix"> </td>
+									<td class="croix"><button class="dir hauteur" type="submit" name='action' value='haut'></button> </td>
+									<td class="croix"> </td>
+								</tr>
+								<tr>
+									<td class="croix"><button class="dir cote" type="submit" name='action' value='gauche'></button> </td>
+									<td class="croix"> </td>
+									<td class="croix"><button class="dir cote" type="submit" name='action' value='droite'></button> </td>
+									<td class="croix" style="width:200px" > </td>
+									<td>
+										<button class="btn" type='submit' name='action' value='A'>A</button>
+										<button class="btn" type='submit' name='action' value='B'>B</button>
+									</td>
+									<td>
+										<button class="btn2" type='submit' name='action' value='start'>start</button>
+										<button class="btn2" type='submit' name='action' value='select'>select</button>
+									</td>
+								</tr>
+								<tr>
+									<td class="croix"> </td>
+									<td class="croix"><button class="dir hauteur" type="submit" name='action' value='bas'></button> </td>
+									<td class="croix"> </td>
+								</tr>
+							</table>
+						</div>
+						<div>
+							<table>
+
+							</table>
+						</div>
+					</tr>
+				</table>
+				</form>
+			</div>
+		</div>
+		{% block content %}
+		{% endblock %}
+	</body>
+</html>
