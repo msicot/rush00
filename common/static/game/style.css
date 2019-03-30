@@ -86,3 +86,11 @@ img{
 	height:100%;
 	border-collapse:collapse;
 }
+
+.level{
+	color: red
+  }
+
+  .hp{
+	color: green
+  }
