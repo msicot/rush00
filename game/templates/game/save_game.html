@@ -1,0 +1,15 @@
+{% extends 'game/base.html' %}
+
+{% block screen %}
+<div class="screen">
+	<div class=menu>
+        <h1> Moviemon : Gotta watch them all</h1>
+        {% for elem in slots %}
+            {% if elem.target == True %}
+                <h3 style="background-color: blue">Slot {{elem.case}}</h3>
+            {%else%}
+               <h3>Slot {{elem.case}} </h3>
+            {% endif %}
+        {% endfor %}
+	</div>
+{% endblock %}

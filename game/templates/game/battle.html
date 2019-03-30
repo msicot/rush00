@@ -1,0 +1,14 @@
+{% extends 'game/base.html' %}
+
+{% block screen %}
+<div class="screen">
+	<div class=menu>
+        <img src="{{ Poster}}" alt="Smiley face" width="70%" height="70%">
+    </div>
+    <tr></tr>
+    <div class=menu>
+        <p>A wild {{ Title }} appears !</p>
+        <h4 class="level">Lvl. {{ imdbRating }}</h4>
+        <h4 class="hp">{{ Year }}/{{ Year }}</h4>
+	</div>
+{% endblock %}
