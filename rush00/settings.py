@@ -35,6 +35,7 @@ GAME_CONFIG = {
         'moviemon' : get_monster_movies()
         }
 
+CURSOR_POS = 0
 # Application definition
 
 INSTALLED_APPS = [

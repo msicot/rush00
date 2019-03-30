@@ -98,3 +98,22 @@ def save_game(request):
 
 def load_game(request):
     return (HttpResponse("loadgame"))
+
+def moviedex(request):
+    movies = {
+        "movie 1": "img_a",
+        "movie 2": "img_b",
+        "movie 3": "img_c",
+        "movie 4": "img_d",
+        "movie 5": "img_e",
+    }
+    #pos = 0
+    if request.method == 'POST':
+        r = request.POST['action']
+        if r:
+            if r == 'bas' and settings.CURSOR_POS < len(movies) - 1:
+                settings.CURSOR_POS += 1
+            if r == 'haut' and settings.CURSOR_POS - 1 >= 0:
+                settings.CURSOR_POS -= 1
+    print(settings.CURSOR_POS, len(movies))
+    return render(request, 'game/moviedex.html', {'movies': movies, 'pos': settings.CURSOR_POS })

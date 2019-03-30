@@ -8,5 +8,5 @@ urlpatterns = [
         path('options', views.options, name='options'),
         path('options/save_game', views.save_game, name='options'),
         path('options/load_game', views.load_game, name='options'),
-        # path('moviedex', views.moviedex, name='moviedex'),
+        path('moviedex', views.moviedex, name='moviedex'),
 ]
