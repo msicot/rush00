@@ -2,4 +2,17 @@
 {% load static %}
 		{% block screen %}
 			<div class="screen" style="background-image: url({% static 'img/map.png'%})">
+				<table class="map">
+					{% for i in size %}
+						<tr>
+						{% for x in size %}
+						{% if i == 0 %}
+							<td style='border:solid' style="background-image: url({% static 'img/hero.png'%})"></td>
+						{%else%}
+							<td style='border:solid'></td>
+							{% endif %}
+						{% endfor %}
+						</tr>
+					{% endfor %}
+				</table>
 		{% endblock %}

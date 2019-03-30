@@ -14,13 +14,13 @@
 				{% block screen %}
 					<div class="screen">
 				{% endblock %}
-				<form method='post'>
+					</div>
+				<form method='POST'>
 					{% csrf_token %}
-				<table>
-					<!-- CASE 1 -->
+				<table >
 					<tr>
 						<div>
-							<table>
+							<table id='corentin'>
 								<tr>
 									<td class="croix"> </td>
 									<td class="croix"><button class="dir hauteur" type="submit" name='action' value='haut'></button> </td>
@@ -30,9 +30,9 @@
 									<td class="croix"><button class="dir cote" type="submit" name='action' value='gauche'></button> </td>
 									<td class="croix"> </td>
 									<td class="croix"><button class="dir cote" type="submit" name='action' value='droite'></button> </td>
-									<td class="croix" style="width:200px" > </td>
+									<td class="croix" style="width:300px" > </td>
 									<td>
-										<button class="btn" type='submit' name='action' value='A'>A</button>
+										<button class="btn" type='submit' name='action' value='A' href="{% url 'worldmap'%}">A</button>
 										<button class="btn" type='submit' name='action' value='B'>B</button>
 									</td>
 									<td>
@@ -45,11 +45,6 @@
 									<td class="croix"><button class="dir hauteur" type="submit" name='action' value='bas'></button> </td>
 									<td class="croix"> </td>
 								</tr>
-							</table>
-						</div>
-						<div>
-							<table>
-
 							</table>
 						</div>
 					</tr>
