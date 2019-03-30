@@ -30,7 +30,8 @@ ALLOWED_HOSTS = []
 GAME_CONFIG = {
         'size' : 10,
         'first_position' : 0,
-        'moviemon' : []
+        'current_position': 0,
+        'moviemon' : [],
         }
 
 

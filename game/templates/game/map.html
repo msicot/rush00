@@ -1,18 +1,19 @@
 {% extends 'game/base.html' %}
 {% load static %}
-		{% block screen %}
-			<div class="screen" style="background-image: url({% static 'img/map.png'%})">
-				<table class="map">
-					{% for i in size %}
-						<tr>
-						{% for x in size %}
-						{% if i == 0 %}
-							<td style='border:solid' style="background-image: url({% static 'img/hero.png'%})"></td>
-						{%else%}
-							<td style='border:solid'></td>
-							{% endif %}
-						{% endfor %}
-						</tr>
-					{% endfor %}
-				</table>
-		{% endblock %}
+{% block screen %}
+<div class="screen" style="background-image: url({% static 'img/map.png'%})">
+	<table class="map">
+		{% for row in size %}
+		<tr>
+			{% for cell in size %}
+				{% if row == y and x == cell  %}
+				<td class="cell"><img class="hero" src="https://data.whicdn.com/images/5288877/original.gif" alt="player" height="35" width="35"></td>
+				{% else %}
+				<td class="cell"></td>
+				{% endif %}
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</table>
+
+	{% endblock %}
