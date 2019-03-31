@@ -66,6 +66,7 @@ class DataManager():
             'start': False,
             'moviemon_db': get_monster_movies(),
             'captured_moviemon': [],
+			'captured_moviemon_nb': 0,
             'moviemon_found': None
         }
         pickle_dump(game_log, self.filename)

@@ -99,8 +99,13 @@ def battle(request):
             found = movie
             break
     print(data['moviemon_found'], movie)
+    successrate = 50 - float(movie['imdbRating']) * 10 + (data['captured_moviemon_nb'] * 5)
+    if successrate < 1:
+        successrate = 1
+    if successrate > 90:
+        successrate = 90
     #return redirect('battle/' + data['moviemon_found']['Title'].replace(' ', '_').lower() )
-    return render(request, 'game/battle.html', movie)
+    return render(request, 'game/battle.html', {"Movie" : movie, "lvl": data['captured_moviemon_nb']})
 
 
 # def moviedex(request):
