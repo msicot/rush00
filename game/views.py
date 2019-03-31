@@ -103,22 +103,26 @@ def battle(request, title=None):
     data = manager(filename).load()
 
     movie_list = data['moviemon_db']
-    for movie in movie_list:
-        if title == movie['Title'].replace(" ", "_"):
-            movie_content = {**movie}
-            return render(request, 'game/battle.html', {"Movie" : movie_content, 'lvl': data['captured_moviemon_nb']})
-  
-
- 
     successrate = 50 - float(movie['imdbRating']) * 10 + (data['captured_moviemon_nb'] * 5)
     if successrate < 1:
         successrate = 1
     if successrate > 90:
         successrate = 90
+
+    if request.method == 'POST':
+        r = request.POST['action']
+        if r:
+            if r == 'A':
+                print('CATCHED')
+            elif r == 'B':
+                return redirect('/worldmap')
+
+    for movie in movie_list:
+        if title == movie['Title'].replace(" ", "_"):
+            movie_content = {**movie}
+            return render(request, 'game/battle.html', {"Movie" : movie_content, 'lvl': data['captured_moviemon_nb']})
+
     return render(request, 'game/battle.html', {"Movie" : movie, "lvl": data['captured_moviemon_nb']})
-
-
-
 
 
 def options(request):
