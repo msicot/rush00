@@ -9,3 +9,17 @@
 		<h3>Start: Cancel</h3>
 	</div>
 {% endblock %}
+
+{% block cross %}
+	
+{% include 'game/active_cross.html' %}
+
+{% endblock %}
+
+{% block a_button %}
+		<button class="btn" type='submit' name='action' value='A'>A</button>
+{% endblock %}
+
+{% block b_button %}
+		<button class="btn" type='submit' name='action' value='B'>B</button>
+{% endblock %}
