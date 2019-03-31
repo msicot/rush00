@@ -10,6 +10,12 @@
 	</div>
 
 	{% endblock %}
+
+    {% block cross %}
+		{% include 'game/inactive_cross.html' %}
+    {% endblock %}
+
+
 	{% block a_button %}
 	<a href="{% url 'worldmap'  %}">
 		<button class="btn" type='button' name='action' value='A'>A</button>

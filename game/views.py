@@ -36,6 +36,7 @@ def worldmap(request):
     # replace by call class DataManager
     data = manager(filename).load()
     size = data['size']
+    print("#########\nDEBUG   size={}\n#########".format(size))
     pos = data['current_position']
     if request.method == 'POST' and any(x == request.POST['action'] for x in action):
         move = request.POST['action']
@@ -57,6 +58,12 @@ def worldmap(request):
             settings.CURSOR_POS = 0
             return redirect('/moviedex')
 
+    data.update(start=True)
+    if pos == data['current_position']:
+        data['event'] = ''
+        data['size'] = range(size)
+        return render(request, 'game/map.html', data)
+
     data.update(
         current_position=pos if pos != data else data['current_position'],
         x=pos % size,
@@ -64,7 +71,7 @@ def worldmap(request):
         scale=scale,
         event=event(data['start'])
     )
-    data.update(start=True)
+    
     if data['event'] == 'moviemon':
         data['moviemon_found'] = manager(
             filename).get_random_movie(data['moviemon_db'])['Title']
