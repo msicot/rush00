@@ -244,7 +244,7 @@ def info_movie(request, current_movie=None):
     # Fetch movies from "DataBase"
     filename = 'common/game_log.pickle'
     data = manager(filename).load()
-    movie_list = data['moviemon_db']
+    movie_list = data['moviemon_db2']
     
     if request.method == 'POST':
         r = request.POST['action']
