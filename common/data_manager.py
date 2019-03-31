@@ -51,12 +51,8 @@ class DataManager:
         save_file = os.listdir('common/save_folder/')
         if self.filename.count('/') == 2:
             for elem in save_file:
-                print('common/save_folder/' + elem)
-                print(elem[:5])
-                print(self.filename[:5])
                 if elem[:5] == self.filename.split('/')[2][:5]:
                     os.remove('common/save_folder/' + elem)
-                    print("==============================")
         pickle_dump(game_log, self.filename)
         return None
 
