@@ -1,0 +1,15 @@
+{% extends 'game/base.html' %}
+
+{% block screen %}
+<div class="screen">
+    
+    <div class=menu style="font-family: 'Geo', serif; font-size: 35px">
+        {% for i in movies %}
+            {% if forloop.counter0 == pos %}
+                <p style="color:black"><img width="20px" src="https://png.pngtree.com/svg/20150911/3633bcb09c.svg" />{{ i }}</p>
+            {% else %}
+            <p style="color:black">{{ i }}</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
