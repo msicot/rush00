@@ -35,7 +35,7 @@ def worldmap(request):
     # replace by call class DataManager
     data = manager(filename).load()
     size = data['size']
-    print("#########\nDEBUG   size={}\n#########".format(size))
+   
     pos = data['current_position']
     if request.method == 'POST' :
         if data['event'] == 'moviemon':
@@ -101,19 +101,24 @@ def worldmap(request):
 def battle(request, title=None):
     filename = 'common/game_log.pickle'
     data = manager(filename).load()
+
     movie_list = data['moviemon_db']
-    
-    if request.method == 'POST':
-        r = request.POST['action']
-        if r:
-            if r == 'B':
-                return redirect('moviedex')
     for movie in movie_list:
         if title == movie['Title'].replace(" ", "_"):
             movie_content = {**movie}
-            return render(request, 'game/battle.html', movie_content)
-    
-    return redirect('moviedex')
+            return render(request, 'game/battle.html', {"Movie" : movie_content, 'lvl': data['captured_moviemon_nb']})
+  
+
+ 
+    successrate = 50 - float(movie['imdbRating']) * 10 + (data['captured_moviemon_nb'] * 5)
+    if successrate < 1:
+        successrate = 1
+    if successrate > 90:
+        successrate = 90
+    return render(request, 'game/battle.html', {"Movie" : movie, "lvl": data['captured_moviemon_nb']})
+
+
+
 
 
 def options(request):

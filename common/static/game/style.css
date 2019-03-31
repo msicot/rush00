@@ -285,6 +285,17 @@ img{
     border: 6px solid #506860;
 }
 
+.box-battle-message {
+    position: absolute;
+    width: 600px;
+    height: 60px;
+    border-radius: 2px;
+    bottom: 40%;
+    left: 80px;
+    background: #F8F8D8;
+    border: 6px solid #506860;
+}
+
 .moviemon {
     text-align: left;
     margin-left: 40px;
@@ -298,6 +309,15 @@ img{
     text-align: left;
     margin-left: 25px;
     margin-top: 30px;
+    opacity: 0.7;
+    font-size: 18px;
+    font-family: "Roboto Condensed";
+}
+
+.battle-message {
+    text-align: left;
+    margin-left: 25px;
+    margin-top: 14px;
     opacity: 0.7;
     font-size: 18px;
     font-family: "Roboto Condensed";
@@ -358,5 +378,14 @@ img{
     bottom: -16px;
     opacity: 0.7;
     font-size: 16px;
+    font-family: "Roboto Condensed";
+}
+
+.successrate {
+    text-align: left;
+    margin-left: 10px;
+    margin-top: 10px;
+    opacity: 0.7;
+    font-size: 18px;
     font-family: "Roboto Condensed";
 }

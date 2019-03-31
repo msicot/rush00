@@ -3,25 +3,31 @@
 {% block screen %}
 <div class="screen">
     <div class="box-top-left">
-        <h2 class="moviemon">{{ Title }}</h2>
+        <h2 class="moviemon">{{ Movie.Title }}</h2>
         <div class="hp-bar-top">
             <div class="hp-bar-fill" style="width: 100%;"> </div>
         </div>
-        <h4 class="level">Lvl. {{ imdbRating }}</h4>
-        <h4 class="hp">{{ Year}} / {{ Year }}</h4>
+        <h4 class="level">Lvl. {{ Movie.imdbRating }}</h4>
+        <h4 class="hp">{{ Movie.Year}} / {{ Movie.Year }}</h4>
     </div>
-    <img src="{{ Poster }}" class="poster-top">
+    <img src="{{ Movie.Poster }}" class="poster-top">
+
+    <div class="box-battle-message">
+            <h4 class="battle-message">Run. you fool !</h4>
+    </div>
+
     <div class="box-bottom-right">
-        <h2 class="moviemon">{{ Title }}</h2>
+        <h2 class="moviemon">Petit Martin</h2>
+        <h2 class="successrate">The probability to catch this Moviemon is 10%.</h2>
         <div class="hp-bar-bottom">
             <div class="hp-bar-fill" style="width: 100%;"> </div>
         </div>
-        <h4 class="level">Lvl. {{ imdbRating }}</h4>
-        <h4 class="hp">{{ Year}} / {{ Year }}</h4>
+        <h4 class="level">Lvl. {{ lvl }}</h4>
+        <h4 class="hp">1337 / 1337</h4>
     </div>
     <div class="box-bottom-left">
-            <h2 class="movieball">A - Lancez une Movieball</h2>
-            <h2 class="retour_worldmap">B - Retour</h2>
+            <h2 class="movieball">A - Launch Movieball</h2>
+            <h2 class="retour_worldmap">B - Run</h2>
     </div>
 
 
