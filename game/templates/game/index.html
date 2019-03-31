@@ -2,11 +2,28 @@
 
 {% block screen %}
 
-	<div class="screen">
-		<div class=menu>
-			<h1> Moviemon : Gotta watch them all</h1>
-			<h3>A : Start Game</h3>
-			<h3>B : Load Game</h3>
-		</div>
+<div class="screen">
+	<div class=menu>
+		<h1> Moviemon : Gotta watch them all</h1>
+		<h3>A : Start Game</h3>
+		<h3>B : Load Game</h3>
+	</div>
 
+	{% endblock %}
+
+    {% block cross %}
+		{% include 'game/inactive_cross.html' %}
+    {% endblock %}
+
+
+	{% block a_button %}
+	<a href="{% url 'worldmap'  %}">
+		<button class="btn" type='button' name='action' value='A'>A</button>
+		</a>
+	{% endblock %}
+
+	{% block b_button %}
+	<a href="{% url 'options' %}">
+	<button id="b_button" class="btn" type='button' name='action' value='B'>B</button>
+	</a>
 {% endblock %}
