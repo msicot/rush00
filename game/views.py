@@ -5,7 +5,7 @@ import subprocess
 import logging
 from common.data_manager import DataManager as manager
 import random
-
+#--utf8--#
 
 def index(request):
     manager('common/game_log.pickle').load_default_settings()
@@ -52,11 +52,12 @@ def worldmap(request):
         elif move == 'gauche':
             pos = pos - 1 if pos % size != 0 else pos
             scale = "ScaleX(1)"
-        elif move == 'start':
+        if move == 'start':
             return redirect('/options')
         elif move == 'select':
+            print('\nhello\n')
             settings.CURSOR_POS = 0
-            return redirect('/moviedex')
+            return redirect('moviedex')
     data.update(
         current_position=pos if pos != data else data['current_position'],
         x=pos % size,
@@ -72,6 +73,13 @@ def worldmap(request):
         data['movieball'] += 1
     manager(filename).dump(data)
     data['size'] = range(size)
+    ###
+    if request.method == 'POST':
+        r = request.POST['action']
+        if r: 
+            if  r == 'select':
+                return redirect('moviedex')
+    ###
     print(data)
     return render(request, 'game/map.html', data)
 
@@ -163,29 +171,20 @@ def load_game(request):
 
 def info_movie(request):
     moviemon_list = settings.GAME_CONFIG['moviemon']
-    movie_index = randint(0, len(moviemon_list) - 1)
+    movie_index = random.randint(0, len(moviemon_list) - 1)
     movie_content = {**moviemon_list[movie_index]}
     return render(request, 'game/info_movie.html', movie_content)
 
 def moviedex(request):
-    movies = {
-        "movie 1": "img_a",
-        "movie 2": "img_b",
-        "movie 3": "img_c",
-        "movie 4": "img_d",
-        "movie 5": "img_e",
-        "movie 11": "img_a",
-        "movie 22ddddddddddddddddd": "img_b",
-        "movie 33": "img_c",
-        "movie 44": "img_d",
-        "movie 55": "img_e",
-        "movie 111": "img_a",
-        "movie 222": "img_b",
-        "movie 333": "img_c",
-        "movie 444": "img_d",
-        "movie 555": "img_e",
-    }
-    #pos = 0
+    # to keep for the end
+    filename = 'common/game_log.pickle'
+    data = manager(filename).load()
+    movie_list = ["Alien", "Black Sheep"]
+    movies = {}
+    for idx, movie in enumerate(data['moviemon_db']):
+        #print(movie["Title"], movie_list)
+        if movie["Title"] in movie_list:
+            movies[idx] = {"Title" : movie["Title"], "Poster" : movie["Poster"]}
     if request.method == 'POST':
         r = request.POST['action']
         if r:
@@ -195,7 +194,9 @@ def moviedex(request):
                 settings.CURSOR_POS -= 1
             #if r == ''
             if  r == 'select':
-                # Permet de rediriger lorsque il y a changement d'url
+                settings.CURSOR_POS = 0
                 return redirect('worldmap')
-    print(settings.CURSOR_POS, len(movies))
-    return render(request, 'game/moviedex.html', {'movies': movies, 'pos': settings.CURSOR_POS})
+            if  r == 'A':
+                if len(movies) > 0:
+                    return redirect('moviedex/' + movies[settings.CURSOR_POS]['Title'].lower())
+    return render(request, 'game/moviedex.html', {'movies': movies, 'pos': settings.CURSOR_POS, 'len_movies':len(movies)})

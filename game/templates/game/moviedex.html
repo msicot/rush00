@@ -4,18 +4,22 @@
 <div class="screen" style="text-align: left ;justify-content: left; align-items: left;">
     
     <div class=menu style="font-size: 20px;text-align: left; padding-left: 20px">
-        {% for i in movies %}
-            {% if forloop.counter0 == pos %}
+        {% if len_movies > 0 %}
+        {% for idx, movie in movies.items %}
+            {% if idx == pos %}
                 <p style="color:black;  border: 2px solid black;padding: 10px;">
-                    <!--<img width="2%;" style="position: relative:left: 100px;" src="https://png.pngtree.com/svg/20150911/3633bcb09c.svg" />-->
-                    {{ i }}
+                    <img height="40spx;" style="padding-right: 30px" src="{{ movie.Poster }}" />
+                    {{ movie.Title }}
+                    
                 </p>
             {% else %}
                 <p style="color:black;">
                     <!--<img width="2%;" style="position: relative:left: 100px;" src="https://png.pngtree.com/svg/20150911/3633bcb09c.svg" />-->
-                    {{ i }}
+                    <img height="20px;" style="padding-right: 30px" src="{{ movie.Poster }}" />
+                    {{ movie.Title }}
                 </p>
             {% endif %}
         {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}
