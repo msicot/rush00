@@ -40,8 +40,7 @@
 
 {% block a_button %}
 	{% if event == 'moviemon'%}
-		<a href="{% url 'battle'%}"><button class="btn" type='button' name='action' value='A'>A</button>
-			</a>
+		<button class="btn" type='submit' name='action' value='A'>A</button>
 	{% elif event == 'movieball' %}
 		<button class="btn" type='button' name='action' value='A'>A</button>
 	{% else %}
