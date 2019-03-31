@@ -71,7 +71,7 @@ class DataManager:
                     'y': 0,
                     'scale': '',
                     'event': '',
-                    'movieball': 100,
+                    'movieball': 10,
                     'start': False,
                     'moviemon_db': get_monster_movies(),
                     'moviemon_db2': get_monster_movies(),
