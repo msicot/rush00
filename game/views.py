@@ -1,34 +1,12 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.conf import settings
 from random import randint
-import os, subprocess, logging, ipdb
-import common.data_manager as manager
+import os, subprocess, logging
+from common.data_manager import DataManager as manager
 import random
 
-# Create your views here.
-
-# replace by call class DataManager
-def create_config(filename):
-    print("\tcreating file...")
-    if os.path.isfile(filename):
-        print("REMOVE {}".format(filename))
-        os.remove(filename)
-    game_log = {'size': settings.GAME_CONFIG['size'],
-                'first_position': settings.GAME_CONFIG['first_position'],
-                'current_position' :0,
-                'x': 0,
-                'y': 0,
-                'scale': '',
-                'event': '',
-                'movieball': 0,
-                'start': False,
-    }
-    print(game_log)
-    # replace by call class DataManager
-    manager.pickle_dump(game_log, filename)
-
 def index(request):
-    create_config('common/game_log.pickle')
+    manager('common/game_log.pickle').load_default_settings()
     if request.method == 'POST':
         r = request.POST['action']
         if r: 
@@ -43,12 +21,12 @@ def worldmap(request):
     
     filename = 'common/game_log.pickle'
     if not os.path.isfile(filename):
+        manager(filename).load_default_settings()
         print("worldmap: creating file")
-        create_config(filename)
     scale = ''
     action = ['haut', 'bas', 'droite', 'gauche']
     # replace by call class DataManager
-    data = manager.pickle_load(filename)
+    data = manager(filename).load()
     print(data)
     #ipdb.set_trace()
     size = data['size']
@@ -80,7 +58,7 @@ def worldmap(request):
     elif data['event'] == 'movieball':
         data['movieball'] += 1
 
-    manager.pickle_dump(data, filename)
+    manager(filename).dump(data)
     data['size'] = range(size)
     print(data)
     return render(request, 'game/map.html', data)
