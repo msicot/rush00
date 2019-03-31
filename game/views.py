@@ -18,7 +18,7 @@ def index(request):
             elif r == 'B':
                 return redirect('/options/load_game')
 
-        
+
     return render(request, 'game/index.html')
 
 
@@ -72,7 +72,7 @@ def worldmap(request):
         scale=scale,
         event=event(data['start'])
     )
-    
+
     if data['event'] == 'moviemon':
         data['moviemon_found'] = manager(
             filename).get_random_movie(data['moviemon_db'])['Title']
@@ -172,7 +172,7 @@ def load_game(request):
     ]
     if request.method == 'POST':
         r = request.POST['action']
-        if r: 
+        if r:
             if  r == 'A':
                 save_file = os.listdir(SAVE_FOLDER)
                 for elem in save_file:
@@ -202,11 +202,18 @@ def load_game(request):
         count += 1
     return render(request, 'game/load_game.html', {'slots' : mooc})
 
-def info_movie(request):
-    moviemon_list = settings.GAME_CONFIG['moviemon']
-    movie_index = random.randint(0, len(moviemon_list) - 1)
-    movie_content = {**moviemon_list[movie_index]}
-    return render(request, 'game/info_movie.html', movie_content)
+def info_movie(request, current_movie=None):
+    # Fetch movies from "DataBase"
+    filename = 'common/game_log.pickle'
+    data = manager(filename).load()
+    movie_list = data['moviemon_db']
+
+    for movie in movie_list:
+        if current_movie == movie['Title'].lower().replace(" ", "_"):
+            movie_content = {**movie}
+            return render(request, 'game/info_movie.html', movie_content)
+
+    return redirect('moviedex')
 
 def moviedex(request):
     # to keep for the end
