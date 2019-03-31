@@ -280,7 +280,7 @@ def moviedex(request):
                 settings.CURSOR_POS = 0
                 return redirect('worldmap')
             if  r == 'A':
-                print('ok')
+                #print('ok')
                 #if len(movies) > 0:
                 return redirect('moviedex/' + movies[settings.CURSOR_POS]['Title'].replace(' ', '_').lower())
     return render(request, 'game/moviedex.html', {'movies': movies, 'pos': settings.CURSOR_POS, 'len_movies':len(movies)})

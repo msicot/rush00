@@ -3,7 +3,7 @@
 {% block screen %}
 <div class="screen" style="text-align: left ;justify-content: left; align-items: left;">
     
-    <div class=menu style="font-size: 20px;text-align: left; padding-left: 20px">
+    <div class=menu style="display: block;font-size: 20px;text-align: left; padding-left: 20px">
         {% if len_movies > 0 %}
         {% for idx, movie in movies.items %}
             {% if idx == pos %}
@@ -22,11 +22,27 @@
         {% endfor %}
         {% endif %}
     </div>
-    
 {% endblock %}
+
+
+{% block info %}
+<div style="text-align: center; font-weight: bold;">
+    <span>
+        A - More information
+    </span><br>
+    <span>
+        select - Back
+    </span>
+</div>
+{% endblock %}
+
 {% block cross %}
     {% include 'game/active_cross.html' %}
 {% endblock %}
 {% block a_button %}
     <button id="a_button" class="btn" type='submit' name='action' value='A'>A</button>
+{% endblock %}
+
+{% block select %}
+    <button class="btn btn2" type='submit' name='action' value='select'></button>
 {% endblock %}
