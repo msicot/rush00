@@ -69,6 +69,7 @@ class DataManager:
                     'movieball': 100,
                     'start': False,
                     'moviemon_db': get_monster_movies(),
+                    'moviemon_db2': get_monster_movies(),
                     'captured_moviemon': [],
                     'captured_moviemon_nb': 0,
                     'moviemon_found': None
