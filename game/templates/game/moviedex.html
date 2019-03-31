@@ -1,0 +1,21 @@
+{% extends 'game/base.html' %}
+
+{% block screen %}
+<div class="screen" style="text-align: left ;justify-content: left; align-items: left;">
+    
+    <div class=menu style="font-size: 20px;text-align: left; padding-left: 20px">
+        {% for i in movies %}
+            {% if forloop.counter0 == pos %}
+                <p style="color:black;  border: 2px solid black;padding: 10px;">
+                    <!--<img width="2%;" style="position: relative:left: 100px;" src="https://png.pngtree.com/svg/20150911/3633bcb09c.svg" />-->
+                    {{ i }}
+                </p>
+            {% else %}
+                <p style="color:black;">
+                    <!--<img width="2%;" style="position: relative:left: 100px;" src="https://png.pngtree.com/svg/20150911/3633bcb09c.svg" />-->
+                    {{ i }}
+                </p>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
