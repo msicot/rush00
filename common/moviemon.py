@@ -20,3 +20,30 @@ if __name__ == "__main__":
     for each in moviemons:
         print(each)
     pass
+
+## Available Keys:
+# 'Title'
+# 'Year'
+# 'Rated'
+# 'Released'
+# 'Runtime'
+# 'Genre'
+# 'Director'
+# 'Writer'
+# 'Actors'
+# 'Plot'
+# 'Language'
+# 'Country'
+# 'Awards'
+# 'Poster'
+# 'Ratings'
+# 'Metascore'
+# 'imdbRating'
+# 'imdbVotes'
+# 'imdbID'
+# 'Type'
+# 'DVD'
+# 'BoxOffice'
+# 'Production'
+# 'Website'
+# 'Response'

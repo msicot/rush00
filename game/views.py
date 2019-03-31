@@ -15,6 +15,10 @@ def index(request):
             if r == 'A':
                 # Permet de rediriger lorsque il y a changement d'url
                 return redirect('worldmap')
+            elif r == 'B':
+                return redirect('/options/load_game')
+
+        
     return render(request, 'game/index.html')
 
 
@@ -48,6 +52,11 @@ def worldmap(request):
         elif move == 'gauche':
             pos = pos - 1 if pos % size != 0 else pos
             scale = "ScaleX(1)"
+        elif move == 'start':
+            return redirect('/options')
+        elif move == 'select':
+            settings.CURSOR_POS = 0
+            return redirect('/moviedex')
     data.update(
         current_position=pos if pos != data else data['current_position'],
         x=pos % size,
@@ -61,7 +70,6 @@ def worldmap(request):
             filename).get_random_movie(data['moviemon_db'])
     elif data['event'] == 'movieball':
         data['movieball'] += 1
-
     manager(filename).dump(data)
     data['size'] = range(size)
     print(data)
@@ -109,15 +117,85 @@ def save_game(request):
                 return (HttpResponse('DEV'))
             elif r == 'B':
                 return redirect('/options')
-            if r == 'bas':
-                print(request.POST)
+            if r == 'bas' and settings.CURSOR_POS < 2:
+                settings.CURSOR_POS += 1
+            elif r == 'haut' and settings.CURSOR_POS > 0:
+                settings.CURSOR_POS -= 1
     mooc = [
         {'case': 'A', 'target': True},
         {'case': 'B', 'target': False},
         {'case': 'C', 'target': False},
     ]
-    return render(request, 'game/save_game.html', {'slots': mooc})
-
+    count = 0
+    while count < 3:
+        if count == settings.CURSOR_POS:
+            mooc[count]['target'] = True
+        else:
+            mooc[count]['target'] = False
+        count += 1
+    return render(request, 'game/save_game.html', {'slots' : mooc})
 
 def load_game(request):
-    return (HttpResponse("loadgame"))
+    if request.method == 'POST':
+        r = request.POST['action']
+        if r: 
+            if  r == 'A':
+                return (HttpResponse('DEV'))
+            elif r == 'B':
+                return redirect('/options')
+            if r == 'bas' and settings.CURSOR_POS < 2:
+                settings.CURSOR_POS += 1
+            elif r == 'haut' and settings.CURSOR_POS > 0:
+                settings.CURSOR_POS -= 1
+    mooc = [
+        {'case': 'A', 'target' : True},
+        {'case': 'B', 'target' : False},
+        {'case': 'C', 'target' : False},
+    ]
+    count = 0
+    while count < 3:
+        if count == settings.CURSOR_POS:
+            mooc[count]['target'] = True
+        else:
+            mooc[count]['target'] = False
+        count += 1
+    return render(request, 'game/load_game.html', {'slots' : mooc})
+
+def info_movie(request):
+    moviemon_list = settings.GAME_CONFIG['moviemon']
+    movie_index = randint(0, len(moviemon_list) - 1)
+    movie_content = {**moviemon_list[movie_index]}
+    return render(request, 'game/info_movie.html', movie_content)
+
+def moviedex(request):
+    movies = {
+        "movie 1": "img_a",
+        "movie 2": "img_b",
+        "movie 3": "img_c",
+        "movie 4": "img_d",
+        "movie 5": "img_e",
+        "movie 11": "img_a",
+        "movie 22ddddddddddddddddd": "img_b",
+        "movie 33": "img_c",
+        "movie 44": "img_d",
+        "movie 55": "img_e",
+        "movie 111": "img_a",
+        "movie 222": "img_b",
+        "movie 333": "img_c",
+        "movie 444": "img_d",
+        "movie 555": "img_e",
+    }
+    #pos = 0
+    if request.method == 'POST':
+        r = request.POST['action']
+        if r:
+            if r == 'bas' and settings.CURSOR_POS < len(movies) - 1:
+                settings.CURSOR_POS += 1
+            if r == 'haut' and settings.CURSOR_POS - 1 >= 0:
+                settings.CURSOR_POS -= 1
+            #if r == ''
+            if  r == 'select':
+                # Permet de rediriger lorsque il y a changement d'url
+                return redirect('worldmap')
+    print(settings.CURSOR_POS, len(movies))
+    return render(request, 'game/moviedex.html', {'movies': movies, 'pos': settings.CURSOR_POS})
