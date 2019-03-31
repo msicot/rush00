@@ -27,14 +27,14 @@
 			{% if event == 'movieball' %}
 			<br><span> NICE !! You found a MovieBall !!</span>
 			{% elif event == 'moviemon' %}
-			<br><span> A wild <strong>{{ moviemon_found }}</strong> appears !!</span>
+			<br><span> A wild <strong>{{ moviemon_found }}</strong> appears !! <strong>PRESS A TO FIGHT</strong></span>
 			{% endif %}
 	</span>
 	{% endblock %}
 
 	{% block cross %}
 	
-			{% include 'game/git active_cross.html' %}
+			{% include 'game/active_cross.html' %}
 	
 	{% endblock %}
 
