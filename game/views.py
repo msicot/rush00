@@ -262,7 +262,7 @@ def moviedex(request):
     # to keep for the end
     filename = 'common/game_log.pickle'
     data = manager(filename).load()
-    #movie_list = ["Alien"]
+    #movie_list = ["Alien", "Pacific Rim"]
     movie_list = data['captured_moviemon']
     movies = {}
     i = 0
@@ -270,7 +270,7 @@ def moviedex(request):
         #print(movie["Title"], movie_list)
         if movie["Title"] in movie_list:
             movies[i] = {"Title" : movie["Title"], "Poster" : movie["Poster"]}
-            i = 0
+            i += 1
     #print(movies)
     if request.method == 'POST':
         r = request.POST['action']
