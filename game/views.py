@@ -209,12 +209,17 @@ def info_movie(request, current_movie=None):
     filename = 'common/game_log.pickle'
     data = manager(filename).load()
     movie_list = data['moviemon_db']
-
+    
+    if request.method == 'POST':
+        r = request.POST['action']
+        if r:
+            if r == 'B':
+                return redirect('moviedex')
     for movie in movie_list:
         if current_movie == movie['Title'].lower().replace(" ", "_"):
             movie_content = {**movie}
             return render(request, 'game/info_movie.html', movie_content)
-
+    
     return redirect('moviedex')
 
 def moviedex(request):
@@ -239,6 +244,7 @@ def moviedex(request):
                 settings.CURSOR_POS = 0
                 return redirect('worldmap')
             if  r == 'A':
-                if len(movies) > 0:
-                    return redirect('moviedex/' + movies[settings.CURSOR_POS]['Title'].lower())
+                print('ok')
+                #if len(movies) > 0:
+                return redirect('moviedex/' + movies[settings.CURSOR_POS]['Title'].replace(' ', '_').lower())
     return render(request, 'game/moviedex.html', {'movies': movies, 'pos': settings.CURSOR_POS, 'len_movies':len(movies)})

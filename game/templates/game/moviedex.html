@@ -22,4 +22,11 @@
         {% endfor %}
         {% endif %}
     </div>
+    
+{% endblock %}
+{% block cross %}
+    {% include 'game/active_cross.html' %}
+{% endblock %}
+{% block a_button %}
+    <button id="a_button" class="btn" type='submit' name='action' value='A'>A</button>
 {% endblock %}
