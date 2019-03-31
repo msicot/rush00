@@ -67,6 +67,12 @@ def worldmap(request):
             return redirect('/moviedex')
 
     data.update(start=True)
+    if pos == data['current_position']:
+        data['event'] = ''
+        manager(filename).dump(data)
+        data['size'] = range(size)
+        return render(request, 'game/map.html', data)
+
     data.update(
         current_position=pos if pos != data else data['current_position'],
         x=pos % size,
@@ -75,7 +81,8 @@ def worldmap(request):
         event=event(data['start'])
     )
 
-    if pos == data['current_position'] or len(data['captured_moviemon']) == 15:
+    if len(data['captured_moviemon']) == 15:
+        print('fin')
         data['event'] = ''
         manager(filename).dump(data)
         data['size'] = range(size)
