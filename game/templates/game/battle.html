@@ -31,13 +31,11 @@
     </div>
 
 
-
-    <!-- <div class=menu>
-        <h4 class="level">Lvl. {{ imdbRating }}</h4>
-        <h4 class="hp">{{ Year }}/{{ Year }}</h4>
-    </div> -->
     {% endblock %}
 
-    {% block cross %}
-        {% include 'game/inactive_cross.html' %}
-    {% endblock %}
+{% block a_button %}
+    <button id="a_button" class="btn" type='submit' name='action' value='A'>A</button>
+{% endblock %}
+{% block b_button %}
+    <button id="b_button" class="btn" type='submit' name='action' value='B'>A</button>
+{% endblock %}

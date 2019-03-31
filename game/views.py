@@ -112,6 +112,14 @@ def battle(request):
     if successrate > 90:
         successrate = 90
     #return redirect('battle/' + data['moviemon_found']['Title'].replace(' ', '_').lower() )
+    if request.method == 'POST':
+        r = request.POST['action']
+        if r:
+            if r == 'A':
+                print('CATCHED')
+            elif r == 'B':
+                return redirect('/worldmap')
+
     return render(request, 'game/battle.html', {"Movie" : movie, "lvl": data['captured_moviemon_nb']})
 
 
