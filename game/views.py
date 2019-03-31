@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.conf import settings
-import os
+import os, ipdb
 import subprocess
 import logging
 from common.data_manager import DataManager as manager
@@ -27,15 +27,19 @@ def worldmap(request):
         return random.choice(['movieball', 'moviemon']) if game == True else ''
 
     filename = 'common/game_log.pickle'
+
     if not os.path.isfile(filename):
         manager(filename).load_default_settings()
         print("worldmap: creating file")
     scale = ''
-    action = ['haut', 'bas', 'droite', 'gauche']
+    action = ['haut', 'bas', 'droite', 'gauche', 'A']
     # replace by call class DataManager
     data = manager(filename).load()
-    print(data)
-    # ipdb.set_trace()
+    if request.method == 'POST':
+        r = request.POST['action']
+        if r == 'A':
+            # Permet de rediriger lorsque il y a changement d'url
+            return redirect('/battle')
     size = data['size']
     pos = data['current_position']
     if request.method == 'POST' and any(x == request.POST['action'] for x in action):
@@ -67,30 +71,17 @@ def worldmap(request):
     data.update(start=True)
     if data['event'] == 'moviemon':
         data['moviemon_found'] = manager(
-            filename).get_random_movie(data['moviemon_db'])
+            filename).get_random_movie(data['moviemon_db'])['Title']
     elif data['event'] == 'movieball':
         data['movieball'] += 1
     manager(filename).dump(data)
     data['size'] = range(size)
-    print(data)
     return render(request, 'game/map.html', data)
 
 
 def battle(request):
     print("Battle !")
-    # moviemon_list = settings.GAME_CONFIG['moviemon']
-    # movie_index = randint(0, len(moviemon_list) - 1)
-    # movie_content = {**moviemon_list[movie_index]}
-    # print(movie_content)
-
-    if request.method == 'POST':
-        r = request.POST['action']
-        if r:
-            if r == 'B':
-                # Permet de rediriger lorsque il y a changement d'url
-                return redirect('worldmap')
-
-    return render(request, 'game/battle.html', movie_content)
+    return render(request, 'game/battle.html')
 
 # def moviedex(request):
 #     return (HttpResponse("moviedex"))

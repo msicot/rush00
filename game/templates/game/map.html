@@ -15,4 +15,32 @@
 		</tr>
 		{% endfor %}
 	</table>
+{% endblock %}
+
+
+	{% block info %}
+	<span>
+		<span> 
+			<img style="width:25px;"alt="pokeball" 
+			src="https://cdn3.iconfinder.com/data/icons/universal-icons-3/1000/pokeball_A-512.png">
+			 MovieBall: {{ movieball }}</span><br>
+			{% if event == 'movieball' %}
+			<br><span> NICE !! You found a MovieBall !!</span>
+			{% elif event == 'moviemon' %}
+			<br><span> A wild <strong>{{ moviemon_found }}</strong> appears !!</span>
+			{% endif %}
+	</span>
 	{% endblock %}
+
+
+{% block a_button %}
+	{% if event == 'moviemon'%}
+		<a href="{% url 'battle'%}"><button class="btn" type='button' name='action' value='A'>A</button>
+			</a>
+	{% elif event == 'movieball' %}
+		<button class="btn" type='button' name='action' value='A'>A</button>
+	{% else %}
+		<button class="btn" type='button' name='action' value='A'>A</button>
+	{% endif%}
+{% endblock %}
+
