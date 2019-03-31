@@ -1,0 +1,33 @@
+{% extends 'game/base.html' %}
+
+{% block screen %}
+<div class="screen">
+    <div>
+		<img src="{{ Poster}}" id="img_movie" alt="Smiley face" width="30%" height="30%">
+		<div style="display: block; margin-left: 10%; margin-right: 10%;">
+			<h2 style="text-align: center;">{{ Title }}</h2>
+			<table style="border-collapse: collapse;">
+				<tr>
+					<th class="info_movie">Director:</th>
+					<td class="info_movie">{{ Director }}</td>
+				</tr>
+					<th class="info_movie">Release date:</th>
+					<td class="info_movie">{{ Year }}/{{ Year }}</td>
+				<tr>
+					<th class="info_movie">Rating. </th>
+					<td class="info_movie">{{ imdbRating }}</td>
+				</tr>
+				<tr>
+					<th class="info_movie">Plot: </th>
+					<td class="info_movie">{{ Plot }}</td>
+				</tr>
+				<tr>
+					<th class="info_movie">Actors: </th>
+					<td class="info_movie">{{ Actors }}</td>
+				</tr>
+			</table>
+		</div>
+			<h4 style="text-align: center">B - Back </h4>
+	</div>
+
+{% endblock %}

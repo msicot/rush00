@@ -9,7 +9,7 @@ def index(request):
     manager('common/game_log.pickle').load_default_settings()
     if request.method == 'POST':
         r = request.POST['action']
-        if r: 
+        if r:
             if  r == 'A':
                 # Permet de rediriger lorsque il y a changement d'url
                 return redirect('worldmap')
@@ -18,7 +18,7 @@ def index(request):
 def worldmap(request):
     def event(game):
         return random.choice(['movieball', 'moviemon']) if game == True else ''
-    
+
     filename = 'common/game_log.pickle'
     if not os.path.isfile(filename):
         manager(filename).load_default_settings()
@@ -72,7 +72,7 @@ def battle(request):
 
     if request.method == 'POST':
         r = request.POST['action']
-        if r: 
+        if r:
             if  r == 'B':
                 # Permet de rediriger lorsque il y a changement d'url
                 return redirect('worldmap')
@@ -85,7 +85,7 @@ def battle(request):
 def options(request):
     if request.method == 'POST':
         r = request.POST['action']
-        if r: 
+        if r:
             if  r == 'A':
                 return redirect('/options/save_game')
             elif r == 'B':
@@ -97,7 +97,7 @@ def options(request):
 def save_game(request):
     if request.method == 'POST':
         r = request.POST['action']
-        if r: 
+        if r:
             if  r == 'A':
                 return (HttpResponse('DEV'))
             elif r == 'B':
@@ -113,3 +113,9 @@ def save_game(request):
 
 def load_game(request):
     return (HttpResponse("loadgame"))
+
+def info_movie(request):
+    moviemon_list = settings.GAME_CONFIG['moviemon']
+    movie_index = randint(0, len(moviemon_list) - 1)
+    movie_content = {**moviemon_list[movie_index]}
+    return render(request, 'game/info_movie.html', movie_content)

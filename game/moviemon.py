@@ -12,11 +12,38 @@ def get_monster_movies():
         d = s.get(url=URL + movie).json()
         moviemon_db.append(d)
     return moviemon_db
-    
-   
+
+
 
 if __name__ == "__main__":
     moviemons = get_monster_movies()
     for each in moviemons:
         print(each)
     pass
+
+## Available Keys:
+# 'Title'
+# 'Year'
+# 'Rated'
+# 'Released'
+# 'Runtime'
+# 'Genre'
+# 'Director'
+# 'Writer'
+# 'Actors'
+# 'Plot'
+# 'Language'
+# 'Country'
+# 'Awards'
+# 'Poster'
+# 'Ratings'
+# 'Metascore'
+# 'imdbRating'
+# 'imdbVotes'
+# 'imdbID'
+# 'Type'
+# 'DVD'
+# 'BoxOffice'
+# 'Production'
+# 'Website'
+# 'Response'
