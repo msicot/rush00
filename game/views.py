@@ -21,6 +21,7 @@ def create_config(filename):
                 'scale': '',
                 'event': '',
                 'movieball': 0,
+                'start': False,
     }
     print(game_log)
     # replace by call class DataManager
@@ -37,8 +38,8 @@ def index(request):
     return render(request, 'game/index.html')
 
 def worldmap(request):
-    def event():
-        return random.choice(['movieball', 'moviemon'])
+    def event(game):
+        return random.choice(['movieball', 'moviemon']) if game == True else ''
     
     filename = 'common/game_log.pickle'
     if not os.path.isfile(filename):
@@ -71,12 +72,13 @@ def worldmap(request):
         x = pos % size,
         y = pos // size,
         scale = scale,
-        event = event(),
-    ) 
+        event = event(data['start'])
+    )
+    data.update(start = True)
     if data['event'] == 'moviemon':
         pass
     elif data['event'] == 'movieball':
-        pass
+        data['movieball'] += 1
 
     manager.pickle_dump(data, filename)
     data['size'] = range(size)

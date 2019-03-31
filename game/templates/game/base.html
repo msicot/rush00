@@ -18,7 +18,14 @@
 					<div class="screen">
 				{% endblock %}
 					</div>
-					<div class="info" >coucou</div>
+					<div class="info" >
+						<span>
+							<span> {{ movieball }}</span>
+						{% if event == 'movieball' %}
+							<br><span> NICE !! You found a MovieBall !!</span>
+						{% endif %}
+						</span>
+					</div>
 				</div>
 				<form method='POST'>
 					{% csrf_token %}
