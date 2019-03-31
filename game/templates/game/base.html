@@ -40,8 +40,12 @@
 				</div>
 				<div class="start_select_contener">
 					<div>
-						<button class="btn btn2" type='submit' name='action' value='start'></button>
-						<button class="btn btn2" type='submit' name='action' value='select'></button>
+						{% block start %}
+							<button class="btn btn2" type='button' name='action' value='start'></button>
+						{% endblock %}
+						{% block select %}
+							<button class="btn btn2" type='button' name='action' value='select'></button>
+						{% endblock %}
 					</div>
 					<div>
 						<span>start</span>
