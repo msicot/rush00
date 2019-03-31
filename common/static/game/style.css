@@ -277,7 +277,7 @@ img{
 .box-bottom-left {
     position: absolute;
     width: 300px;
-    height: 130px;
+    height: 200px;
     border-radius: 10px;
     bottom: -80px;
     left: 20px;
@@ -326,7 +326,7 @@ img{
 .retour_worldmap {
     text-align: left;
     margin-left: 25px;
-    margin-top: 0px;
+    margin-top: 30px;
     opacity: 0.7;
     font-size: 18px;
     font-family: "Roboto Condensed";
@@ -383,9 +383,9 @@ img{
 
 .successrate {
     text-align: left;
-    margin-left: 10px;
+    margin-left: 36px;
     margin-top: 10px;
     opacity: 0.7;
-    font-size: 18px;
+    font-size: 14px;
     font-family: "Roboto Condensed";
 }

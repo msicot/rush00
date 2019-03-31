@@ -13,7 +13,13 @@
     <img src="{{ Movie.Poster }}" class="poster-top">
 
     <div class="box-battle-message">
-            <h4 class="battle-message">{{ message }}</h4>
+            <h4 class="battle-message">
+                {% if message is None %}
+                Hello there !
+                {% else %}
+                {{ message }}
+                {% endif %}
+            </h4>
     </div>
 
     <div class="box-bottom-right">
