@@ -8,7 +8,7 @@
 		<h3>B : Cancel</h3>
         {% for elem in slots %}
             {% if elem.target == True %}
-                <h3 style="background-color: blue">Slot {{elem.case}}</h3>
+                <h3 style="border: 2px solid black;padding: 10px;">Slot {{elem.case}}</h3>
             {%else%}
                <h3>Slot {{elem.case}} </h3>
             {% endif %}

@@ -17,6 +17,7 @@ def index(request):
                 return redirect('worldmap')
             elif r == 'B':
                 return redirect('/options/load_game')
+
         
     return render(request, 'game/index.html')
 
@@ -45,7 +46,8 @@ def worldmap(request):
         if move == 'start':
             return redirect('/options')
         elif move == 'select':
-            return (HttpResponse('DEV'))
+            settings.CURSOR_POS = 0
+            return redirect('/moviedex')
     content = {
         'size': range(size),
         'position' : pos,
@@ -53,6 +55,13 @@ def worldmap(request):
         'y' : pos // size,
         'scale' : scale,
     }
+    if request.method == 'POST':
+        r = request.POST['action']
+        if r: 
+            if  r == 'select':
+                settings.CURSOR_POS = 0
+                # Permet de rediriger lorsque il y a changement d'url
+                return redirect('moviedex')
     settings.GAME_CONFIG['current_position'] = pos
     print("x ={}, y={}, pos={}".format(content['x'], content['y'], content['position']))
     return render(request, 'game/map.html', content)
@@ -147,6 +156,16 @@ def moviedex(request):
         "movie 3": "img_c",
         "movie 4": "img_d",
         "movie 5": "img_e",
+        "movie 11": "img_a",
+        "movie 22ddddddddddddddddd": "img_b",
+        "movie 33": "img_c",
+        "movie 44": "img_d",
+        "movie 55": "img_e",
+        "movie 111": "img_a",
+        "movie 222": "img_b",
+        "movie 333": "img_c",
+        "movie 444": "img_d",
+        "movie 555": "img_e",
     }
     #pos = 0
     if request.method == 'POST':
@@ -156,5 +175,9 @@ def moviedex(request):
                 settings.CURSOR_POS += 1
             if r == 'haut' and settings.CURSOR_POS - 1 >= 0:
                 settings.CURSOR_POS -= 1
+            #if r == ''
+            if  r == 'select':
+                # Permet de rediriger lorsque il y a changement d'url
+                return redirect('worldmap')
     print(settings.CURSOR_POS, len(movies))
-    return render(request, 'game/moviedex.html', {'movies': movies, 'pos': settings.CURSOR_POS })
+    return render(request, 'game/moviedex.html', {'movies': movies, 'pos': settings.CURSOR_POS})
