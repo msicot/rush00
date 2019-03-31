@@ -36,7 +36,6 @@ def worldmap(request):
     # replace by call class DataManager
     data = manager(filename).load()
     size = data['size']
-   
     pos = data['current_position']
     if request.method == 'POST' :
         if data['event'] == 'moviemon':
@@ -68,11 +67,6 @@ def worldmap(request):
             return redirect('/moviedex')
 
     data.update(start=True)
-    if pos == data['current_position']:
-        data['event'] = ''
-        data['size'] = range(size)
-        return render(request, 'game/map.html', data)
-
     data.update(
         current_position=pos if pos != data else data['current_position'],
         x=pos % size,
@@ -81,7 +75,13 @@ def worldmap(request):
         event=event(data['start'])
     )
 
-    if data['event'] == 'moviemon':
+    if pos == data['current_position'] or len(data['captured_moviemon']) == 15:
+        data['event'] = ''
+        manager(filename).dump(data)
+        data['size'] = range(size)
+        return render(request, 'game/map.html', data)
+    
+    if data['event'] == 'moviemon' and len(data['moviemon_db']):
         data['moviemon_found'] = manager(
             filename).get_random_movie(data['moviemon_db'])['Title']
     elif data['event'] == 'movieball':
@@ -128,6 +128,7 @@ def battle(request, title=None):
                 roll = random.randint(0,100)
                 if roll < successrate:
                     data['event'] = 'catched'
+                    data['moviemon_found'] = ''
                     data['captured_moviemon'].append(movie_content['Title'])
                     data['captured_moviemon_nb'] += 1
                     for i, moviemon in enumerate(data['moviemon_db']):
