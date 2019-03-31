@@ -15,6 +15,9 @@ def index(request):
             if  r == 'A':
                 # Permet de rediriger lorsque il y a changement d'url
                 return redirect('worldmap')
+            elif r == 'B':
+                return redirect('/options/load_game')
+        
     return render(request, 'game/index.html')
 
 def worldmap(request):
@@ -37,6 +40,12 @@ def worldmap(request):
         elif move == 'gauche':
             pos = pos - 1 if pos % size != 0  else pos
             scale = "ScaleX(1)"
+    elif request.method == 'POST':
+        move = request.POST['action']
+        if move == 'start':
+            return redirect('/options')
+        elif move == 'select':
+            return (HttpResponse('DEV'))
     content = {
         'size': range(size),
         'position' : pos,
@@ -87,17 +96,49 @@ def save_game(request):
                 return (HttpResponse('DEV'))
             elif r == 'B':
                 return redirect('/options')
-            if r == 'bas':
-                print(request.POST)
+            if r == 'bas' and settings.CURSOR_POS < 2:
+                settings.CURSOR_POS += 1
+            elif r == 'haut' and settings.CURSOR_POS > 0:
+                settings.CURSOR_POS -= 1
     mooc = [
         {'case': 'A', 'target' : True},
         {'case': 'B', 'target' : False},
         {'case': 'C', 'target' : False},
     ]
+    count = 0
+    while count < 3:
+        if count == settings.CURSOR_POS:
+            mooc[count]['target'] = True
+        else:
+            mooc[count]['target'] = False
+        count += 1
     return render(request, 'game/save_game.html', {'slots' : mooc})
 
 def load_game(request):
-    return (HttpResponse("loadgame"))
+    if request.method == 'POST':
+        r = request.POST['action']
+        if r: 
+            if  r == 'A':
+                return (HttpResponse('DEV'))
+            elif r == 'B':
+                return redirect('/options')
+            if r == 'bas' and settings.CURSOR_POS < 2:
+                settings.CURSOR_POS += 1
+            elif r == 'haut' and settings.CURSOR_POS > 0:
+                settings.CURSOR_POS -= 1
+    mooc = [
+        {'case': 'A', 'target' : True},
+        {'case': 'B', 'target' : False},
+        {'case': 'C', 'target' : False},
+    ]
+    count = 0
+    while count < 3:
+        if count == settings.CURSOR_POS:
+            mooc[count]['target'] = True
+        else:
+            mooc[count]['target'] = False
+        count += 1
+    return render(request, 'game/load_game.html', {'slots' : mooc})
 
 def moviedex(request):
     movies = {
