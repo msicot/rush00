@@ -262,7 +262,7 @@ def moviedex(request):
     # to keep for the end
     filename = 'common/game_log.pickle'
     data = manager(filename).load()
-    movie_list = ["Alien", "Black Sheep"]
+    movie_list = data['captured_moviemon']
     movies = {}
     for idx, movie in enumerate(data['moviemon_db']):
         #print(movie["Title"], movie_list)
