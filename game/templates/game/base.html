@@ -11,11 +11,14 @@
 	<body>
 		<div class="outer-div">
 			<div class="gb">
+				
 				<div class="screen_border">
+				
 				{% block screen %}
 					<div class="screen">
 				{% endblock %}
 					</div>
+					<div class="info" >coucou</div>
 				</div>
 				<form method='POST'>
 					{% csrf_token %}

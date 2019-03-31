@@ -1,14 +1,33 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.conf import settings
 from random import randint
+import os, subprocess, logging, ipdb
+import common.data_manager as manager
+import random
 
 # Create your views here.
 
-def index(request):
-    def set_var():
-        settings.GAME_CONFIG['current_position'] = 0
+# replace by call class DataManager
+def create_config(filename):
+    print("\tcreating file...")
+    if os.path.isfile(filename):
+        print("REMOVE {}".format(filename))
+        os.remove(filename)
+    game_log = {'size': settings.GAME_CONFIG['size'],
+                'first_position': settings.GAME_CONFIG['first_position'],
+                'current_position' :0,
+                'x': 0,
+                'y': 0,
+                'scale': '',
+                'event': '',
+                'movieball': 0,
+    }
+    print(game_log)
+    # replace by call class DataManager
+    manager.pickle_dump(game_log, filename)
 
-    set_var()
+def index(request):
+    create_config('common/game_log.pickle')
     if request.method == 'POST':
         r = request.POST['action']
         if r: 
@@ -18,11 +37,21 @@ def index(request):
     return render(request, 'game/index.html')
 
 def worldmap(request):
+    def event():
+        return random.choice(['movieball', 'moviemon'])
+    
+    filename = 'common/game_log.pickle'
+    if not os.path.isfile(filename):
+        print("worldmap: creating file")
+        create_config(filename)
     scale = ''
     action = ['haut', 'bas', 'droite', 'gauche']
-    print(settings.GAME_CONFIG['current_position'])
-    size = settings.GAME_CONFIG['size']
-    pos = settings.GAME_CONFIG['current_position'] or settings.GAME_CONFIG['first_position']
+    # replace by call class DataManager
+    data = manager.pickle_load(filename)
+    print(data)
+    #ipdb.set_trace()
+    size = data['size']
+    pos = data['current_position']
     if request.method == 'POST' and any(x == request.POST['action'] for x in action):
         move = request.POST['action']
         if move == 'haut':
@@ -37,16 +66,22 @@ def worldmap(request):
         elif move == 'gauche':
             pos = pos - 1 if pos % size != 0  else pos
             scale = "ScaleX(1)"
-    content = {
-        'size': range(size),
-        'position' : pos,
-        'x' : pos % size ,
-        'y' : pos // size,
-        'scale' : scale,
-    }
-    settings.GAME_CONFIG['current_position'] = pos
-    print("x ={}, y={}, pos={}".format(content['x'], content['y'], content['position']))
-    return render(request, 'game/map.html', content)
+    data.update(
+        current_position=pos if pos != data else data['current_position'],
+        x = pos % size,
+        y = pos // size,
+        scale = scale,
+        event = event(),
+    ) 
+    if data['event'] == 'moviemon':
+        pass
+    elif data['event'] == 'movieball':
+        pass
+
+    manager.pickle_dump(data, filename)
+    data['size'] = range(size)
+    print(data)
+    return render(request, 'game/map.html', data)
 
 def battle(request):
     print("Battle !")
