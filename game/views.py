@@ -264,7 +264,7 @@ def moviedex(request):
     data = manager(filename).load()
     movie_list = data['captured_moviemon']
     movies = {}
-    for idx, movie in enumerate(data['moviemon_db']):
+    for idx, movie in enumerate(data['moviemon_db2']):
         #print(movie["Title"], movie_list)
         if movie["Title"] in movie_list:
             movies[idx] = {"Title" : movie["Title"], "Poster" : movie["Poster"]}
