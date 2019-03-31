@@ -26,37 +26,42 @@ def worldmap(request):
     def event(game):
         return random.choice(['movieball', 'moviemon']) if game == True else ''
 
-    filename = 'common/game_log.pickle'
 
+    filename = 'common/game_log.pickle'
     if not os.path.isfile(filename):
         manager(filename).load_default_settings()
         print("worldmap: creating file")
     scale = ''
-    action = ['haut', 'bas', 'droite', 'gauche', 'A']
+    action = ['haut', 'bas', 'droite', 'gauche']
     # replace by call class DataManager
     data = manager(filename).load()
     size = data['size']
     print("#########\nDEBUG   size={}\n#########".format(size))
     pos = data['current_position']
-    if request.method == 'POST' and any(x == request.POST['action'] for x in action):
-        move = request.POST['action']
-        if move == 'haut':
-            pos = pos - size if (pos - size) // size >= 0 else pos
-            scale = "rotate(90deg)"
-        elif move == 'bas':
-            pos = pos + size if (pos + size) // size < size else pos
-            scale = "rotate(-90deg)"
-        elif move == 'droite':
-            pos = pos + 1 if (pos) % size < size - 1 else pos
-            scale = "ScaleX(-1)"
-        elif move == 'gauche':
-            pos = pos - 1 if pos % size != 0 else pos
-            scale = "ScaleX(1)"
-        elif move == 'start':
-            return redirect('/options')
-        elif move == 'select':
-            settings.CURSOR_POS = 0
-            return redirect('/moviedex')
+    if request.method == 'POST' :
+        if data['event'] == 'moviemon':
+            print("We are in a fight bro")
+            data['size'] = range(size)
+            return render(request, 'game/map.html', data)
+        if any(x == request.POST['action'] for x in action):
+            move = request.POST['action']
+            if move == 'haut':
+                pos = pos - size if (pos - size) // size >= 0 else pos
+                scale = "rotate(90deg)"
+            elif move == 'bas':
+                pos = pos + size if (pos + size) // size < size else pos
+                scale = "rotate(-90deg)"
+            elif move == 'droite':
+                pos = pos + 1 if (pos) % size < size - 1 else pos
+                scale = "ScaleX(-1)"
+            elif move == 'gauche':
+                pos = pos - 1 if pos % size != 0 else pos
+                scale = "ScaleX(1)"
+            elif move == 'start':
+                return redirect('/options')
+            elif move == 'select':
+                settings.CURSOR_POS = 0
+                return redirect('/moviedex')
 
     data.update(start=True)
     if pos == data['current_position']:
@@ -86,19 +91,14 @@ def battle(request):
     print("Battle !")
     filename = 'common/game_log.pickle'
     data = manager(filename).load()
-    # moviemon_list = settings.GAME_CONFIG['moviemon']
-    # movie_index = randint(0, len(moviemon_list) - 1)
-    # movie_content = {**moviemon_list[movie_index]}
-    # print(movie_content)
-    data['moviemon_found'] = manager(filename).get_random_movie(data['moviemon_db'])
-    if request.method == 'POST':
-        r = request.POST['action']
-        if r:
-            if r == 'B':
-                # Permet de rediriger lorsque il y a changement d'url
-                return redirect('worldmap')
-
-    return render(request, 'game/battle.html', data['moviemon_found'])
+    found = {}
+    for movie in data['moviemon_db']:
+        if movie['Title'] == data['moviemon_found']:
+            found = movie
+            break
+    print(data['moviemon_found'], movie)
+    #return redirect('battle/' + data['moviemon_found']['Title'].replace(' ', '_').lower() )
+    return render(request, 'game/battle.html', movie)
 
 
 # def moviedex(request):
