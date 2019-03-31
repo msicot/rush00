@@ -7,3 +7,5 @@ db.*
 .*.swp
 .DS_*
 *.pickle
+*.mmg
+*.pickle

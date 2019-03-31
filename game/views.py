@@ -18,7 +18,7 @@ def index(request):
             elif r == 'B':
                 return redirect('/options/load_game')
 
-        
+
     return render(request, 'game/index.html')
 
 
@@ -57,11 +57,13 @@ def worldmap(request):
             elif move == 'gauche':
                 pos = pos - 1 if pos % size != 0 else pos
                 scale = "ScaleX(1)"
-            elif move == 'start':
-                return redirect('/options')
-            elif move == 'select':
-                settings.CURSOR_POS = 0
-                return redirect('/moviedex')
+        elif request.method == 'POST':
+            move = request.POST['action']
+        if move == 'start':
+            return redirect('/options')
+        elif move == 'select':
+            settings.CURSOR_POS = 0
+            return redirect('/moviedex')
 
     data.update(start=True)
     if pos == data['current_position']:
@@ -76,7 +78,7 @@ def worldmap(request):
         scale=scale,
         event=event(data['start'])
     )
-    
+
     if data['event'] == 'moviemon':
         data['moviemon_found'] = manager(
             filename).get_random_movie(data['moviemon_db'])['Title']
@@ -118,25 +120,36 @@ def options(request):
     return render(request, 'game/options.html')
 
 
+SAVE_FOLDER = 'common/save_folder/'
+LIST_SAVE_FILE = ['slot_a', 'slot_b', 'slot_c']
+CURRENT_GAME = 'common/game_log.pickle'
 def save_game(request):
+    mooc = [
+        {'case': 'A', 'target': True, 'status' : 'FREE'},
+        {'case': 'B', 'target': False, 'status' : 'FREE'},
+        {'case': 'C', 'target': False, 'status' : 'FREE'},
+    ]
     if request.method == 'POST':
         r = request.POST['action']
         if r:
             if r == 'A':
-                return (HttpResponse('DEV'))
+                dmanager = manager(CURRENT_GAME)
+                data = dmanager.load()
+                manager("{}slot{}_{}_15.mmg".format(SAVE_FOLDER, mooc[settings.CURSOR_POS]['case'], len(data['captured_moviemon']))).dump(data)
             elif r == 'B':
+                settings.CURSOR_POS = 0
                 return redirect('/options')
             if r == 'bas' and settings.CURSOR_POS < 2:
                 settings.CURSOR_POS += 1
             elif r == 'haut' and settings.CURSOR_POS > 0:
                 settings.CURSOR_POS -= 1
-    mooc = [
-        {'case': 'A', 'target': True},
-        {'case': 'B', 'target': False},
-        {'case': 'C', 'target': False},
-    ]
     count = 0
+    save_file = os.listdir(SAVE_FOLDER)
     while count < 3:
+        for elem in save_file:
+            if 'slot' + mooc[count]['case'] == elem[:5]:
+                info_savegame = manager(SAVE_FOLDER + elem).load()
+                mooc[count]['status'] = str(len(info_savegame['captured_moviemon'])) + "/15"
         if count == settings.CURSOR_POS:
             mooc[count]['target'] = True
         else:
@@ -145,24 +158,36 @@ def save_game(request):
     return render(request, 'game/save_game.html', {'slots' : mooc})
 
 def load_game(request):
+    mooc = [
+        {'case': 'A', 'target': True, 'status' : 'FREE'},
+        {'case': 'B', 'target': False, 'status' : 'FREE'},
+        {'case': 'C', 'target': False, 'status' : 'FREE'},
+    ]
     if request.method == 'POST':
         r = request.POST['action']
-        if r: 
+        if r:
             if  r == 'A':
-                return (HttpResponse('DEV'))
+                save_file = os.listdir(SAVE_FOLDER)
+                for elem in save_file:
+                    if 'slot' + mooc[settings.CURSOR_POS]['case'] == elem[:5]:
+                        data = manager(SAVE_FOLDER + elem).load()
+                        dmanager = manager(CURRENT_GAME).dump(data)
+                        settings.CURSOR_POS = 0
+                        return redirect('worldmap')
             elif r == 'B':
+                settings.CURSOR_POS = 0
                 return redirect('/options')
             if r == 'bas' and settings.CURSOR_POS < 2:
                 settings.CURSOR_POS += 1
             elif r == 'haut' and settings.CURSOR_POS > 0:
                 settings.CURSOR_POS -= 1
-    mooc = [
-        {'case': 'A', 'target' : True},
-        {'case': 'B', 'target' : False},
-        {'case': 'C', 'target' : False},
-    ]
     count = 0
+    save_file = os.listdir(SAVE_FOLDER)
     while count < 3:
+        for elem in save_file:
+            if 'slot' + mooc[count]['case'] == elem[:5]:
+                info_savegame = manager(SAVE_FOLDER + elem).load()
+                mooc[count]['status'] = str(len(info_savegame['captured_moviemon'])) + "/15"
         if count == settings.CURSOR_POS:
             mooc[count]['target'] = True
         else:
@@ -170,11 +195,18 @@ def load_game(request):
         count += 1
     return render(request, 'game/load_game.html', {'slots' : mooc})
 
-def info_movie(request):
-    moviemon_list = settings.GAME_CONFIG['moviemon']
-    movie_index = randint(0, len(moviemon_list) - 1)
-    movie_content = {**moviemon_list[movie_index]}
-    return render(request, 'game/info_movie.html', movie_content)
+def info_movie(request, current_movie=None):
+    # Fetch movies from "DataBase"
+    filename = 'common/game_log.pickle'
+    data = manager(filename).load()
+    movie_list = data['moviemon_db']
+
+    for movie in movie_list:
+        if current_movie == movie['Title'].lower().replace(" ", "_"):
+            movie_content = {**movie}
+            return render(request, 'game/info_movie.html', movie_content)
+
+    return redirect('moviedex')
 
 def moviedex(request):
     movies = {
