@@ -8,3 +8,4 @@ db.*
 .DS_*
 *.pickle
 *.mmg
+*.pickle
