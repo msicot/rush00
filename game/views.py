@@ -35,11 +35,6 @@ def worldmap(request):
     action = ['haut', 'bas', 'droite', 'gauche', 'A']
     # replace by call class DataManager
     data = manager(filename).load()
-    if request.method == 'POST':
-        r = request.POST['action']
-        if r == 'A':
-            # Permet de rediriger lorsque il y a changement d'url
-            return redirect('/battle')
     size = data['size']
     pos = data['current_position']
     if request.method == 'POST' and any(x == request.POST['action'] for x in action):
@@ -61,6 +56,7 @@ def worldmap(request):
         elif move == 'select':
             settings.CURSOR_POS = 0
             return redirect('/moviedex')
+
     data.update(
         current_position=pos if pos != data else data['current_position'],
         x=pos % size,
@@ -81,7 +77,22 @@ def worldmap(request):
 
 def battle(request):
     print("Battle !")
-    return render(request, 'game/battle.html')
+    filename = 'common/game_log.pickle'
+    data = manager(filename).load()
+    # moviemon_list = settings.GAME_CONFIG['moviemon']
+    # movie_index = randint(0, len(moviemon_list) - 1)
+    # movie_content = {**moviemon_list[movie_index]}
+    # print(movie_content)
+    data['moviemon_found'] = manager(filename).get_random_movie(data['moviemon_db'])
+    if request.method == 'POST':
+        r = request.POST['action']
+        if r:
+            if r == 'B':
+                # Permet de rediriger lorsque il y a changement d'url
+                return redirect('worldmap')
+
+    return render(request, 'game/battle.html', data['moviemon_found'])
+
 
 # def moviedex(request):
 #     return (HttpResponse("moviedex"))
