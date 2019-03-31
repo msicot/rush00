@@ -35,10 +35,12 @@ def worldmap(request):
     # replace by call class DataManager
     data = manager(filename).load()
     size = data['size']
-    print("#########\nDEBUG   size={}\n#########".format(size))
+   
     pos = data['current_position']
     if request.method == 'POST' :
         if data['event'] == 'moviemon':
+            if request.POST['action'] == 'A':
+                return redirect('battle/' + data['moviemon_found'].replace(' ', '_'))
             print("We are in a fight bro")
             data['size'] = range(size)
             return render(request, 'game/map.html', data)
@@ -96,22 +98,17 @@ def worldmap(request):
     return render(request, 'game/map.html', data)
 
 
-def battle(request):
-    print("Battle !")
+def battle(request, title=None):
     filename = 'common/game_log.pickle'
     data = manager(filename).load()
-    found = {}
-    for movie in data['moviemon_db']:
-        if movie['Title'] == data['moviemon_found']:
-            found = movie
-            break
-    print(data['moviemon_found'], movie)
+
+    movie_list = data['moviemon_db']
     successrate = 50 - float(movie['imdbRating']) * 10 + (data['captured_moviemon_nb'] * 5)
     if successrate < 1:
         successrate = 1
     if successrate > 90:
         successrate = 90
-    #return redirect('battle/' + data['moviemon_found']['Title'].replace(' ', '_').lower() )
+
     if request.method == 'POST':
         r = request.POST['action']
         if r:
@@ -120,11 +117,12 @@ def battle(request):
             elif r == 'B':
                 return redirect('/worldmap')
 
+    for movie in movie_list:
+        if title == movie['Title'].replace(" ", "_"):
+            movie_content = {**movie}
+            return render(request, 'game/battle.html', {"Movie" : movie_content, 'lvl': data['captured_moviemon_nb']})
+
     return render(request, 'game/battle.html', {"Movie" : movie, "lvl": data['captured_moviemon_nb']})
-
-
-# def moviedex(request):
-#     return (HttpResponse("moviedex"))
 
 
 def options(request):
