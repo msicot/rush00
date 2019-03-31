@@ -26,7 +26,6 @@ def worldmap(request):
     def event(game):
         return random.choice(['movieball', 'moviemon']) if game == True else ''
 
-
     filename = 'common/game_log.pickle'
     if not os.path.isfile(filename):
         manager(filename).load_default_settings()
@@ -43,6 +42,7 @@ def worldmap(request):
             print("We are in a fight bro")
             data['size'] = range(size)
             return render(request, 'game/map.html', data)
+        move = request.POST['action']
         if any(x == request.POST['action'] for x in action):
             move = request.POST['action']
             if move == 'haut':
@@ -57,8 +57,6 @@ def worldmap(request):
             elif move == 'gauche':
                 pos = pos - 1 if pos % size != 0 else pos
                 scale = "ScaleX(1)"
-        elif request.method == 'POST':
-            move = request.POST['action']
         if move == 'start':
             return redirect('/options')
         elif move == 'select':
