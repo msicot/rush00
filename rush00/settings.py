@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-from .moviemon import get_monster_movies
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,8 +30,7 @@ ALLOWED_HOSTS = []
 GAME_CONFIG = {
         'size' : 10,
         'first_position' : 0,
-        'current_position': 0,
-        'moviemon' : get_monster_movies()
+        'current_position': 0
         }
 
 CURSOR_POS = 0

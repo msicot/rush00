@@ -2,13 +2,32 @@
 
 {% block screen %}
 <div class="screen">
-	<div class=menu>
-        <img src="{{ Poster}}" alt="Smiley face" width="70%" height="70%">
+    <div class="box-top-left">
+        <h2 class="pokemon">{{ Title }}</h2>
+        <div class="hp-bar-top">
+            <div class="hp-bar-fill" style="width: 100%;"> </div>
+        </div>
+        <h4 class="level">Lvl. {{ imdbRating }}</h4>
+        <h4 class="hp">{{ Year}} / {{ Year }}</h4>
     </div>
-    <tr></tr>
-    <div class=menu>
-        <p>A wild {{ Title }} appears !</p>
+    <img src="{{ Poster }}" class="poster-top">
+    <div class="box-bottom-right">
+        <h2 class="pokemon">{{ Title }}</h2>
+        <div class="hp-bar-top">
+            <div class="hp-bar-fill" style="width: 100%;"> </div>
+        </div>
+        <h4 class="level">Lvl. {{ imdbRating }}</h4>
+        <h4 class="hp">{{ Year}} / {{ Year }}</h4>
+    </div>
+    <div class="box-bottom-left">
+            <h2 class="movieball">A - Lancez une Movieball</h2>
+            <h2 class="retour_worldmap">B - Retour</h2>
+ 
+    </div>
+
+
+    <!-- <div class=menu>
         <h4 class="level">Lvl. {{ imdbRating }}</h4>
         <h4 class="hp">{{ Year }}/{{ Year }}</h4>
-	</div>
-{% endblock %}
+    </div> -->
+    {% endblock %}
