@@ -5,6 +5,7 @@ import subprocess
 import logging
 from common.data_manager import DataManager as manager
 import random
+import datetime
 #--utf8--#
 
 def index(request):
@@ -100,29 +101,55 @@ def worldmap(request):
 
 def battle(request, title=None):
     filename = 'common/game_log.pickle'
+    random.seed(datetime.datetime.now())
     data = manager(filename).load()
-
+    
     movie_list = data['moviemon_db']
-    successrate = 50 - float(movie['imdbRating']) * 10 + (data['captured_moviemon_nb'] * 5)
-    if successrate < 1:
-        successrate = 1
-    if successrate > 90:
-        successrate = 90
+    for movie in movie_list:
+        if title == movie['Title'].replace(" ", "_"):
+            movie_content = {**movie}
+            break
+
+    if data['event'] != 'catched':
+        successrate = 50 - float(movie_content['imdbRating']) * 10 + (data['captured_moviemon_nb'] * 5)
+        if successrate < 1:
+            successrate = 1
+        if successrate > 90:
+            successrate = 90
 
     if request.method == 'POST':
         r = request.POST['action']
         if r:
             if r == 'A':
-                print('CATCHED')
-            elif r == 'B':
-                return redirect('/worldmap')
+                if data['movieball'] == 0:
+                    manager(filename).dump(data)
+                    return render(request, 'game/battle.html', { "event": data['event'], "message" : "No more movieballs lol !", "Movie" : movie_content, "lvl": data['captured_moviemon_nb'], 'successrate' : successrate, 'movieball':data['movieball']})
+                data['movieball'] -= 1
+                roll = random.randint(0,100)
+                if roll < successrate:
+                    data['event'] = 'catched'
+                    data['captured_moviemon'].append(movie_content['Title'])
+                    data['captured_moviemon_nb'] += 1
+                    for i, moviemon in enumerate(data['moviemon_db']):
+                        if moviemon['Title'] == movie_content['Title']:
+                            data['moviemon_db'].pop(i)
+                    manager(filename).dump(data)
+                    return render(request, 'game/battle.html', { "event": data['event'], "message" : "You catched it !", "Movie" : movie_content, "lvl": data['captured_moviemon_nb'], 'successrate' : successrate, 'movieball':data['movieball']})
+                else:
+                    manager(filename).dump(data)
+                    return render(request, 'game/battle.html', {"message" : "You missed noob !", "Movie" : movie_content, "lvl": data['captured_moviemon_nb'], 'successrate' : successrate, 'movieball':data['movieball']})
 
-    for movie in movie_list:
-        if title == movie['Title'].replace(" ", "_"):
-            movie_content = {**movie}
-            return render(request, 'game/battle.html', {"Movie" : movie_content, 'lvl': data['captured_moviemon_nb']})
+        if r == 'B':
+            data['event'] = ''
+            manager(filename).dump(data)
+            return redirect('/worldmap')
 
-    return render(request, 'game/battle.html', {"Movie" : movie, "lvl": data['captured_moviemon_nb']})
+    # for movie in movie_list:
+    #     if title == movie['Title'].replace(" ", "_"):
+    #         movie_content = {**movie}
+    #         return render(request, 'game/battle.html', {"Movie" : movie_content, 'lvl': data['captured_moviemon_nb'], 'successrate' : successrate})
+
+    return render(request, 'game/battle.html', {"Movie" : movie, "lvl": data['captured_moviemon_nb'], 'successrate' : successrate, 'movieball':data['movieball']})
 
 
 def options(request):

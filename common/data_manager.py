@@ -3,7 +3,11 @@ from django.conf import settings
 import pickle
 import random
 import os
+import datetime
 from .moviemon import get_monster_movies
+
+
+random.seed(datetime.datetime.now())
 
 
 def pickle_load(pickle_file):
@@ -29,19 +33,19 @@ def get_random_movie(moviemons):
     return (random.choice(list(moviemons.keys())))
 
 
-class DataManager():
+class DataManager:
 
     def __init__(self, filename):
         self.filename = filename
-        # self.position = [x, y]
-        # self.movieballs_nb = 0
-        # self.moviedex_moviemons = []
-        # self.moviemons = []
+               # self.position = [x, y]
+               # self.movieballs_nb = 0
+               # self.moviedex_moviemons = []
+               # self.moviemons = []
 
     def load(self, filename=None):
         if filename == None:
             filename = self.filename
-        return (pickle_load(filename))
+            return (pickle_load(filename))
 
     def dump(self, game_log):
         pickle_dump(game_log, self.filename)
@@ -54,43 +58,35 @@ class DataManager():
     def load_default_settings(self):
         if os.path.isfile(self.filename):
             os.remove(self.filename)
-        game_log = {
-            'size': settings.GAME_CONFIG['size'],
-            'first_position': settings.GAME_CONFIG['first_position'],
-            'current_position': 0,
-            'x': 0,
-            'y': 0,
-            'scale': '',
-            'event': '',
-            'movieball': 0,
-            'start': False,
-            'moviemon_db': get_monster_movies(),
-            'captured_moviemon': [],
-			'captured_moviemon_nb': 0,
-            'moviemon_found': None
-        }
-        pickle_dump(game_log, self.filename)
+            game_log = {
+                'size': settings.GAME_CONFIG['size'],
+                    'first_position': settings.GAME_CONFIG['first_position'],
+                    'current_position': 0,
+                    'x': 0,
+                    'y': 0,
+                    'scale': '',
+                    'event': '',
+                    'movieball': 100,
+                    'start': False,
+                    'moviemon_db': get_monster_movies(),
+                    'captured_moviemon': [],
+                    'captured_moviemon_nb': 0,
+                    'moviemon_found': None
+                }
+            pickle_dump(game_log, self.filename)
 
-    def get_strength(self):
-        pass
-        """Retourne la force du joueur. (???? pas du film ???)"""
+    def get_strength(self, data):
+        return len(data['captured_moviemon'])
+    """Retourne la force du joueur. (???? pas du film ???)"""
 
-    def get_movie(self):
-        pass
-        """ 
-    Retourne un dictionnaire Python contenant tous les détails depuis le nom du Moviemon passé en paramètre 
-    et nécessaires à la page Detail.
-    """
-
-
-def main():
-    example_dict = {1: "6", 2: "2", 3: "f"}
-    pickle_dump(example_dict, "ex")
-    dic = pickle_load("ex")
-    print(dic)
-    print(get_random_movie(example_dict))
+    def get_movie(self, data):
+        movies = self.load("common/game.log")
+        for movie in movies['moviemon_db']:
+            if movie.get('Title') == data:
+                return movie
+        return None
 
 
 if __name__ == '__main__':
 
-    main()
+    pass

@@ -13,12 +13,12 @@
     <img src="{{ Movie.Poster }}" class="poster-top">
 
     <div class="box-battle-message">
-            <h4 class="battle-message">Run. you fool !</h4>
+            <h4 class="battle-message">{{ message }}</h4>
     </div>
 
     <div class="box-bottom-right">
         <h2 class="moviemon">Petit Martin</h2>
-        <h2 class="successrate">The probability to catch this Moviemon is 10%.</h2>
+        <h3 class="successrate">The probability to catch this Moviemon is {{ successrate }}%.</h3>
         <div class="hp-bar-bottom">
             <div class="hp-bar-fill" style="width: 100%;"> </div>
         </div>
@@ -26,16 +26,27 @@
         <h4 class="hp">1337 / 1337</h4>
     </div>
     <div class="box-bottom-left">
+        {% if event != 'catched' %}
             <h2 class="movieball">A - Launch Movieball</h2>
+        {% endif%}
             <h2 class="retour_worldmap">B - Run</h2>
+            <h3 class="retour_worldmap">Movieballs : {{movieball}}</h3>
     </div>
 
 
     {% endblock %}
 
 {% block a_button %}
+    {% if event != 'catched' %}
     <button id="a_button" class="btn" type='submit' name='action' value='A'>A</button>
+    {% else %}
+    <button id="a_button" class="btn" type='button' name='action' value='A'>A</button>
+    {% endif %}
 {% endblock %}
 {% block b_button %}
-    <button id="b_button" class="btn" type='submit' name='action' value='B'>A</button>
+    <button id="b_button" class="btn" type='submit' name='action' value='B'>B</button>
+{% endblock %}
+
+{% block cross %}
+    {% include 'game/active_cross.html' %}
 {% endblock %}
